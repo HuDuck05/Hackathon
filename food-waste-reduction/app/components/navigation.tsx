@@ -26,13 +26,13 @@ export default function Navigation({ isAdmin = false }: NavigationProps) {
   }, [])
 
   return isAdmin ? (
-    <header className="border-b sticky top-0 bg-white/80 backdrop-blur-md z-50">
+    <header className="bg-gradient-to-r from-green-50 to-blue-50 border-b sticky top-0 backdrop-blur-md z-50 shadow-sm">
       <div className="container flex items-center justify-between py-4">
         <Link href="/admin" className="flex items-center gap-2">
           <div className="bg-gradient-to-r from-green-600 to-emerald-500 rounded-lg p-2">
             <Leaf className="h-6 w-6 text-white" />
           </div>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-500 text-transparent bg-clip-text">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-green-600 to-blue-600 text-transparent bg-clip-text">
             エコフード 管理画面
           </h1>
         </Link>

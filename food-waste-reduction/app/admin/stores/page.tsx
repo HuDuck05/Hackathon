@@ -56,53 +56,55 @@ export default function AdminStoresPage() {
   return (
     <>
       <Navigation isAdmin={true} />
-      <div className="container mx-auto py-10">
-        <h1 className="text-2xl font-bold mb-5">店舗管理</h1>
-        <div className="flex justify-between items-center mb-6">
-          <div className="relative w-64">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="店舗を検索"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-8"
-            />
+      <section className="relative overflow-hidden py-20 bg-gradient-to-b from-green-50 to-white">
+        <div className="container mx-auto py-10">
+          <h1 className="text-2xl font-bold mb-5">店舗管理</h1>
+          <div className="flex justify-between items-center mb-6">
+            <div className="relative w-64">
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="店舗を検索"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-8"
+              />
+            </div>
+            <Button asChild>
+              <Link href="/admin/stores/new">
+                <Plus className="mr-2 h-4 w-4" /> 新規店舗追加
+              </Link>
+            </Button>
           </div>
-          <Button asChild>
-            <Link href="/admin/stores/new">
-              <Plus className="mr-2 h-4 w-4" /> 新規店舗追加
-            </Link>
-          </Button>
-        </div>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead>店舗名</TableHead>
-              <TableHead>住所</TableHead>
-              <TableHead>電話番号</TableHead>
-              <TableHead>ステータス</TableHead>
-              <TableHead>アクション</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredStores.map((store) => (
-              <TableRow key={store.id}>
-                <TableCell>{store.id}</TableCell>
-                <TableCell>{store.name}</TableCell>
-                <TableCell>{store.address}</TableCell>
-                <TableCell>{store.phone}</TableCell>
-                <TableCell>{store.status}</TableCell>
-                <TableCell>
-                  <Button variant="outline" size="sm" asChild>
-                    <Link href={`/admin/stores/${store.id}`}>編集</Link>
-                  </Button>
-                </TableCell>
+          <Table className="w-full bg-white rounded-lg">
+            <TableHeader>
+              <TableRow>
+                <TableHead>ID</TableHead>
+                <TableHead>店舗名</TableHead>
+                <TableHead>住所</TableHead>
+                <TableHead>電話番号</TableHead>
+                <TableHead>ステータス</TableHead>
+                <TableHead>アクション</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+            </TableHeader>
+            <TableBody>
+              {filteredStores.map((store) => (
+                <TableRow key={store.id}>
+                  <TableCell>{store.id}</TableCell>
+                  <TableCell>{store.name}</TableCell>
+                  <TableCell>{store.address}</TableCell>
+                  <TableCell>{store.phone}</TableCell>
+                  <TableCell>{store.status}</TableCell>
+                  <TableCell>
+                    <Button variant="outline" size="sm" asChild>
+                      <Link href={`/admin/stores/${store.id}`}>編集</Link>
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </section>
     </>
   )
 }
