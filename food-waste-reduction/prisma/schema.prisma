@@ -7,10 +7,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id Int @unique @default(autoincrement()) @id
+  name String
+  address String
+}
+
+model Item {
+  id Int @unique
+  name String
+
+}
+
 model Product {
-  id     String  @id @default(uuid())
+  id     Int @unique @default(autoincrement()) @id
   name   String
-  price  Float
+  price  Int
   stock  Int
   status String  @default("在庫あり") // "在庫あり", "在庫なし", "入荷待ち" のいずれか
   createdAt DateTime @default(now())
