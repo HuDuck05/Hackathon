@@ -25,6 +25,8 @@ export default function ReceiptsPage() {
     }
   }, [selectedFile])
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault()
     setIsDragging(true)
@@ -56,6 +58,8 @@ export default function ReceiptsPage() {
       console.error("ファイルが選択されていません")
       return
     }
+    setIsLoading(true) // ローディング開始
+  
     const formData = new FormData()
     formData.append("file", selectedFile)
     try {
@@ -71,10 +75,14 @@ export default function ReceiptsPage() {
       } else {
         console.error("Pythonバックエンドへの送信失敗")
       }
+      // （必要ならここで 2000ms のディレイを入れる場合）
+      // await new Promise((resolve) => setTimeout(resolve, 2000))
     } catch (error) {
       console.error("保存中にエラーが発生", error)
     }
+    setIsLoading(false) // ローディング終了
   }
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white py-12">
@@ -142,16 +150,25 @@ export default function ReceiptsPage() {
         {/* アップロードした画像のプレビューと保存ボタン */}
         {previewUrl && (
           <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>アップロードした画像のプレビュー</CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-col items-center">
-              <img src={previewUrl} alt="アップロード画像" className="max-w-full h-auto mb-4" />
-              <Button variant="outline" onClick={handleSave}>
-                画像を保存して処理を実行
-              </Button>
-            </CardContent>
-          </Card>
+          <CardHeader>
+            <CardTitle>アップロードした画像のプレビュー</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col items-center">
+            <img
+              src={previewUrl}
+              alt="アップロード画像"
+              className="max-w-full h-auto mb-4"
+            />
+            <Button
+              variant="outline"
+              onClick={handleSave}
+              disabled={isLoading}
+              className="bg-green-500 text-white rounded-md py-7 px-8 text-lg font-bold"
+            >
+              {isLoading ? "処理中..." : "画像を保存して処理を実行"}
+            </Button>
+          </CardContent>
+        </Card>
         )}
 
         {/* スキャン履歴 */}
@@ -168,12 +185,16 @@ export default function ReceiptsPage() {
                 <p className="text-sm text-muted-foreground">まだスキャン履歴はありません</p>
               ) : (
                 scanHistory.map((entry, i) => (
-                  <div key={i} className="p-4 rounded-lg bg-muted/50">
-                    <p className="font-medium">OCR結果: {entry.ocr_result.slice(0, 50)}...</p>
-                    <pre className="text-sm text-muted-foreground">
-                      {JSON.stringify(entry.sorted_result, null, 2)}
-                    </pre>
-                  </div>
+                  <div key={i} className="p-4 bg-gray-50 rounded-md shadow">
+                  <p className="font-bold mb-2">
+                    買い物一覧({new Date().toLocaleDateString("ja-JP")})
+                  </p>
+                  <pre className="text-sm text-blue-600 font-semibold tracking-wide whitespace-pre-wrap">
+                    {Array.isArray(entry.ocr_result)
+                      ? entry.ocr_result.join("\n")
+                      : entry.ocr_result}
+                  </pre>
+                </div>
                 ))
               )}
             </div>

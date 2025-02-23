@@ -32,11 +32,12 @@ export default function AdminProductsPage() {
 
   return (
     <>
-      <Navigation isAdmin={true} />
-      <div className="container mx-auto py-10">
+    <Navigation isAdmin={true} />
+    <section className="relative overflow-hidden py-20 bg-gradient-to-b from-green-50 to-white">
+      <div className="container mx-auto py-10 ">
         <h1 className="text-2xl font-bold mb-5">商品管理</h1>
-        <div className="flex justify-between items-center mb-6">
-          <div className="relative w-64">
+        <div className="flex justify-between items-center mb-6 ">
+          <div className="relative w-64 ">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="商品を検索"
@@ -51,7 +52,7 @@ export default function AdminProductsPage() {
             </Link>
           </Button>
         </div>
-        <Table>
+        <Table className="w-full bg-white rounded-lg">
           <TableHeader>
             <TableRow>
               <TableHead>ID</TableHead>
@@ -80,6 +81,7 @@ export default function AdminProductsPage() {
           </TableBody>
         </Table>
       </div>
+      </section>
     </>
   )
 }
