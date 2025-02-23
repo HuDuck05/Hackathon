@@ -58,7 +58,7 @@ export default function ReceiptsPage() {
     formData.append("file", selectedFile)
     try {
       // ここでは python バックエンドのエンドポイント（例：/api/process）に送信する例です
-      const res = await fetch("/api/process", {
+      const res = await fetch("/receipts/api/process", {
         method: "POST",
         body: formData,
       })
