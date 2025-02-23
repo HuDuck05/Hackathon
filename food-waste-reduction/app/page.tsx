@@ -75,7 +75,7 @@ export default function Home() {
                 <div className="flex gap-4">
                   <Button
                     size="lg"
-                    className="bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-700 hover:to-emerald-600"
+                    className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105"
                     asChild
                   >
                     <Link href="/auth/register">今すぐ始める</Link>
