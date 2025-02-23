@@ -104,17 +104,17 @@ export default function Home() {
               {
                 icon: <Camera className="h-8 w-8 text-orange-500" />,
                 title: "レシートをスキャン",
-                description: "お買い物のレシートをカメラで撮影するだけ",
+                description: "個々に向けたおすすめ商品をご提案",
               },
               {
                 icon: <TrendingDown className="h-8 w-8 text-blue-500" />,
-                title: "お得な商品をチェック",
-                description: "AIがあなたの購買履歴から最適な商品を提案",
+                title: "近い + お得な商品を発見",
+                description: "マップ機能で様々なお店を見つけることが可能",
               },
               {
                 icon: <Leaf className="h-8 w-8 text-green-500" />,
-                title: "お得にお買い物",
-                description: "近くの店舗で環境に優しいお買い物を",
+                title: "お気に入りのお店を保存",
+                description: "あなたの特別なお店がすぐわかるように",
               },
             ].map((step, i) => (
               <Card key={i} className="relative group hover:shadow-lg transition-all">
@@ -165,36 +165,36 @@ export default function Home() {
             <Badge className="mb-4 bg-blue-100 text-blue-800 hover:bg-blue-100">SDGs達成に向けて</Badge>
             <h2 className="text-3xl font-bold mb-6">私たちの取り組み</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto mb-12">
-              食品ロスの削減を通じて持続可能な社会の実現を目指しています。
-              あなたのお買い物が、地球環境の保護につながります。
+            食品ロスの削減を通じて環境保護への貢献を目標としています。<br></br>
+            「もったいない」を減らすために、ご協力ください！
             </p>
             <div className="grid md:grid-cols-3 gap-8 text-left">
               <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-none">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Leaf className="h-5 w-5 text-green-600" />
-                    環境負荷低減
+                    MISSION
                   </CardTitle>
                 </CardHeader>
-                <CardContent>年間約600万トンの食品ロスを削減することを目指しています。</CardContent>
+                <CardContent>国内で出る年間約600万トンの食品ロスを削減することを目指しています。</CardContent>
               </Card>
               <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border-none">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Store className="h-5 w-5 text-blue-600" />
-                    地域社会への貢献
+                    VISION
                   </CardTitle>
                 </CardHeader>
-                <CardContent>地域の小売店と協力し、フードロス削減と地域活性化を実現します。</CardContent>
+                <CardContent>企業の「届かない」とユーザーの「見つけたい」が出会う場所をご提供。</CardContent>
               </Card>
               <Card className="bg-gradient-to-br from-orange-50 to-yellow-50 border-none">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Users className="h-5 w-5 text-orange-600" />
-                    消費者支援
+                    VALUE
                   </CardTitle>
                 </CardHeader>
-                <CardContent>賢い消費選択をサポートし、家計の節約に貢献します。</CardContent>
+                <CardContent>食品ロスをお得に、便利に解決し、環境を守ります。</CardContent>
               </Card>
             </div>
           </div>
