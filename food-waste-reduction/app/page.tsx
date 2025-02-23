@@ -69,7 +69,7 @@ export default function Home() {
                   買い物しよう
                 </h2>
                 <p className="text-lg text-muted-foreground mb-8">
-                  レシートをスキャ6ンして、あなたに最適なお買い物提案を受け取りましょう。
+                  レシートをスキャンして、あなたに最適なお買い物提案を受け取りましょう。
                   地域の店舗と協力して、食品ロス削減に貢献します。
                 </p>
                 <div className="flex gap-4">
