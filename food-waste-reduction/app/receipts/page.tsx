@@ -169,9 +169,11 @@ export default function ReceiptsPage() {
               ) : (
                 scanHistory.map((entry, i) => (
                   <div key={i} className="p-4 rounded-lg bg-muted/50">
-                    <p className="font-medium">OCR結果: {entry.ocr_result.slice(0, 50)}...</p>
+                    <p className="font-medium">
+                      買い物一覧({new Date().toLocaleDateString("ja-JP")})
+                    </p>
                     <pre className="text-sm text-muted-foreground">
-                      {JSON.stringify(entry.sorted_result, null, 2)}
+                      {Array.isArray(entry.ocr_result) ? entry.ocr_result.join("\n") : entry.ocr_result}
                     </pre>
                   </div>
                 ))
