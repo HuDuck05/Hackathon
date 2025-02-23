@@ -1,23 +1,15 @@
+import Navigation from "@/app/components/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { Package, Store, BarChart, Leaf } from "lucide-react"
+import { Package, Store, BarChart } from "lucide-react"
 
 export default function AdminPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b sticky top-0 bg-white/80 backdrop-blur-md z-50">
-        <div className="container flex items-center justify-between py-4">
-          <Link href="/admin" className="flex items-center gap-2">
-            <div className="bg-gradient-to-r from-green-600 to-emerald-500 rounded-lg p-2">
-              <Leaf className="h-6 w-6 text-white" />
-            </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-500 text-transparent bg-clip-text">
-              エコフード 管理画面
-            </h1>
-          </Link>
-        </div>
-      </header>
+    <>
+      {/* 管理者用ナビゲーションを表示 */}
+      <Navigation isAdmin={true} />
+
       <div className="container py-12">
         <h2 className="text-3xl font-bold mb-8">管理者ダッシュボード</h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -65,7 +57,6 @@ export default function AdminPage() {
           </Card>
         </div>
       </div>
-    </div>
+    </>
   )
 }
-
