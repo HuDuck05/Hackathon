@@ -1,14 +1,37 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Eye, EyeOff, Mail, Lock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import Link from "next/link"
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const router = useRouter()
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    // Here you would typically make an API call to authenticate the user
+    // For this example, we'll just simulate a successful login
+    console.log("Logging in with:", email, password)
+
+    // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+
+    // Set a token in localStorage to simulate logged-in state
+    localStorage.setItem("authToken", "dummy_token")
+
+    // Redirect to home page
+    router.push("/")
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-green-50 to-white py-12 px-4 sm:px-6 lg:px-8">
@@ -20,19 +43,34 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="email">メールアドレス</Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-                <Input id="email" type="email" placeholder="your@email.com" className="pl-10" />
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="your@email.com"
+                  className="pl-10"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
               </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">パスワード</Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-                <Input id="password" type={showPassword ? "text" : "password"} className="pl-10" />
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  className="pl-10"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
                 <Button
                   type="button"
                   variant="ghost"
@@ -48,18 +86,21 @@ export default function LoginPage() {
                 </Button>
               </div>
             </div>
-            <Button className="w-full bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-700 hover:to-emerald-600">
+            <Button
+              type="submit"
+              className="w-full bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-700 hover:to-emerald-600"
+            >
               ログイン
             </Button>
             <div className="text-center space-y-2">
-              <a href="#" className="text-sm text-blue-600 hover:underline">
+              <Link href="/auth/login/forgot-password" className="text-sm text-blue-600 hover:underline">
                 パスワードをお忘れですか？
-              </a>
+              </Link>
               <div className="text-sm">
                 アカウントをお持ちでない方は
-                <a href="/auth/register" className="text-blue-600 hover:underline">
+                <Link href="/auth/register" className="text-blue-600 hover:underline">
                   新規登録
-                </a>
+                </Link>
               </div>
             </div>
           </form>

@@ -1,121 +1,69 @@
-"use client"
-
-import type React from "react"
-
-import { useState } from "react"
-import { Upload, Camera, Package, AlertCircle } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { Package, Store, BarChart, Leaf } from "lucide-react"
 
 export default function AdminPage() {
-  const [isDragging, setIsDragging] = useState(false)
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault()
-    setIsDragging(true)
-  }
-
-  const handleDragLeave = () => {
-    setIsDragging(false)
-  }
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault()
-    setIsDragging(false)
-    // Handle file drop
-  }
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white py-12">
-      <div className="container max-w-4xl">
-        <h1 className="text-3xl font-bold mb-8">商品投稿</h1>
-
-        <Alert className="mb-6">
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>投稿のコツ</AlertTitle>
-          <AlertDescription>
-            商品の画像は明るく鮮明なものを使用してください。商品説明は具体的かつ魅力的に書きましょう。
-          </AlertDescription>
-        </Alert>
-
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
+    <div className="min-h-screen bg-background">
+      <header className="border-b sticky top-0 bg-white/80 backdrop-blur-md z-50">
+        <div className="container flex items-center justify-between py-4">
+          <Link href="/admin" className="flex items-center gap-2">
+            <div className="bg-gradient-to-r from-green-600 to-emerald-500 rounded-lg p-2">
+              <Leaf className="h-6 w-6 text-white" />
+            </div>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-500 text-transparent bg-clip-text">
+              エコフード 管理画面
+            </h1>
+          </Link>
+        </div>
+      </header>
+      <div className="container py-12">
+        <h2 className="text-3xl font-bold mb-8">管理者ダッシュボード</h2>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Camera className="h-5 w-5" />
-                カメラで撮影
+                <Package className="h-5 w-5" />
+                商品管理
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <Button className="w-full h-40 bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-700 hover:to-emerald-600">
-                <Camera className="h-8 w-8 mb-2" />
-                <span>カメラを起動</span>
+              <p className="mb-4">商品の追加、編集、削除を行います。</p>
+              <Button className="w-full" asChild>
+                <Link href="/admin/products">商品一覧を見る</Link>
               </Button>
             </CardContent>
           </Card>
-
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Upload className="h-5 w-5" />
-                画像をアップロード
+                <Store className="h-5 w-5" />
+                店舗管理
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div
-                className={`w-full h-40 border-2 border-dashed rounded-lg flex flex-col items-center justify-center cursor-pointer transition-colors ${
-                  isDragging ? "border-primary bg-primary/5" : "border-muted"
-                }`}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-              >
-                <Upload className="h-8 w-8 mb-2 text-muted-foreground" />
-                <p className="text-sm text-muted-foreground">ドラッグ＆ドロップ、またはクリックしてアップロード</p>
-              </div>
+              <p className="mb-4">店舗情報の管理や在庫状況の確認を行います。</p>
+              <Button className="w-full" asChild>
+                <Link href="/admin/stores">店舗一覧を見る</Link>
+              </Button>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BarChart className="h-5 w-5" />
+                売上レポート
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="mb-4">売上データや食品ロス削減の効果を確認します。</p>
+              <Button className="w-full" asChild>
+                <Link href="/admin/reports">レポートを見る</Link>
+              </Button>
             </CardContent>
           </Card>
         </div>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Package className="h-5 w-5" />
-              商品情報
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form className="space-y-4">
-              <div>
-                <Label htmlFor="productName">商品名</Label>
-                <Input id="productName" placeholder="商品名を入力してください" />
-              </div>
-              <div>
-                <Label htmlFor="productDescription">商品説明</Label>
-                <Textarea id="productDescription" placeholder="商品の詳細な説明を入力してください" />
-              </div>
-              <div>
-                <Label htmlFor="originalPrice">元の価格</Label>
-                <Input id="originalPrice" type="number" placeholder="元の価格を入力してください" />
-              </div>
-              <div>
-                <Label htmlFor="discountedPrice">割引後の価格</Label>
-                <Input id="discountedPrice" type="number" placeholder="割引後の価格を入力してください" />
-              </div>
-              <div>
-                <Label htmlFor="expirationDate">消費期限</Label>
-                <Input id="expirationDate" type="date" />
-              </div>
-              <Button className="w-full bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-700 hover:to-emerald-600">
-                商品を投稿する
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
       </div>
     </div>
   )

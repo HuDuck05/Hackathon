@@ -53,8 +53,11 @@ export default function StoreDetailPage({ params }: { params: { id: string } }) 
             <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
               <p className="text-muted-foreground">ここに地図が表示されます</p>
             </div>
-            <Button className="w-full bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-700 hover:to-emerald-600">
-              この店舗の商品を見る
+            <Button
+              className="w-full bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-700 hover:to-emerald-600"
+              asChild
+            >
+              <Link href={`/stores/${params.id}/products`}>この店舗の商品を見る</Link>
             </Button>
           </CardContent>
         </Card>
