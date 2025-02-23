@@ -1,7 +1,8 @@
 import sys
 from PIL import Image
-
+print("画像情報を表示します")
 if __name__ == "__main__":
+    print("画像情報を表示します")
     if len(sys.argv) < 2:
         print("Usage: python test.py <image_path>")
         sys.exit(1)

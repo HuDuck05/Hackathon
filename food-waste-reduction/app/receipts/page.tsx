@@ -11,8 +11,10 @@ export default function ReceiptsPage() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  // スキャン履歴として、バックエンドから返ってきた JSON を保持する配列
+  const [scanHistory, setScanHistory] = useState<any[]>([])
 
-  // ファイル選択時にプレビュー用のURLを作成
+  // ファイル選択時にプレビュー用の URL を作成
   useEffect(() => {
     if (selectedFile) {
       const url = URL.createObjectURL(selectedFile)
@@ -48,7 +50,7 @@ export default function ReceiptsPage() {
     }
   }
 
-  // 保存ボタンを押したときに、画像ファイルをpythonバックエンドへ送信する処理
+  // 画像保存ボタン押下時、Python バックエンドへ画像を送信し、結果を取得してスキャン履歴に追加する
   const handleSave = async () => {
     if (!selectedFile) {
       console.error("ファイルが選択されていません")
@@ -57,13 +59,15 @@ export default function ReceiptsPage() {
     const formData = new FormData()
     formData.append("file", selectedFile)
     try {
-      // ここでは python バックエンドのエンドポイント（例：/api/process）に送信する例です
       const res = await fetch("/receipts/api/process", {
         method: "POST",
         body: formData,
       })
       if (res.ok) {
-        console.log("Pythonバックエンドへの送信成功")
+        const result = await res.json()
+        console.log("Pythonバックエンドからの結果:", result)
+        // 取得した JSON を先頭に追加
+        setScanHistory((prev) => [result, ...prev])
       } else {
         console.error("Pythonバックエンドへの送信失敗")
       }
@@ -135,7 +139,7 @@ export default function ReceiptsPage() {
           </Card>
         </div>
 
-        {/* 選択した画像のプレビューと保存ボタン */}
+        {/* アップロードした画像のプレビューと保存ボタン */}
         {previewUrl && (
           <Card className="mb-8">
             <CardHeader>
@@ -150,6 +154,7 @@ export default function ReceiptsPage() {
           </Card>
         )}
 
+        {/* スキャン履歴 */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -159,17 +164,18 @@ export default function ReceiptsPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {[...Array(3)].map((_, i) => (
-                <div key={i} className="flex items-center justify-between p-4 rounded-lg bg-muted/50">
-                  <div>
-                    <p className="font-medium">イオン渋谷店</p>
-                    <p className="text-sm text-muted-foreground">2024年2月22日 15:30</p>
+              {scanHistory.length === 0 ? (
+                <p className="text-sm text-muted-foreground">まだスキャン履歴はありません</p>
+              ) : (
+                scanHistory.map((entry, i) => (
+                  <div key={i} className="p-4 rounded-lg bg-muted/50">
+                    <p className="font-medium">OCR結果: {entry.ocr_result.slice(0, 50)}...</p>
+                    <pre className="text-sm text-muted-foreground">
+                      {JSON.stringify(entry.sorted_result, null, 2)}
+                    </pre>
                   </div>
-                  <Button variant="outline" size="sm">
-                    詳細を見る
-                  </Button>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </CardContent>
         </Card>
