@@ -162,7 +162,7 @@ export default function Home() {
 
         <section className="py-20 bg-gradient-to-b from-orange-50 to-green-50">
           <div className="container text-center">
-            <Badge className="mb-4 bg-blue-100 text-blue-800 hover:bg-blue-100">SDGs達成に向けて</Badge>
+            <Badge className="mb-4 bg-blue-100 text-blue-800 hover:bg-blue-100">環境保護に向けて</Badge>
             <h2 className="text-3xl font-bold mb-6">私たちの取り組み</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto mb-12">
             食品ロスの削減を通じて環境保護への貢献を目標としています。<br></br>
