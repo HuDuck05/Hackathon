@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id     String  @id @default(uuid())
+  name   String
+  price  Float
+  stock  Int
+  status String  @default("在庫あり") // "在庫あり", "在庫なし", "入荷待ち" のいずれか
+  createdAt DateTime @default(now())
+}
