@@ -1,8 +1,6 @@
 "use client"
 
-import type React from "react"
-
-import { useState } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { Upload, Camera, Receipt, AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,6 +8,20 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 export default function ReceiptsPage() {
   const [isDragging, setIsDragging] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+
+  // ファイル選択時にプレビュー用のURLを作成
+  useEffect(() => {
+    if (selectedFile) {
+      const url = URL.createObjectURL(selectedFile)
+      setPreviewUrl(url)
+      return () => URL.revokeObjectURL(url)
+    } else {
+      setPreviewUrl(null)
+    }
+  }, [selectedFile])
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault()
@@ -23,7 +35,41 @@ export default function ReceiptsPage() {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault()
     setIsDragging(false)
-    // Handle file drop
+    const files = e.dataTransfer.files
+    if (files && files.length > 0) {
+      setSelectedFile(files[0])
+    }
+  }
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (files && files.length > 0) {
+      setSelectedFile(files[0])
+    }
+  }
+
+  // 保存ボタンを押したときに、画像ファイルをpythonバックエンドへ送信する処理
+  const handleSave = async () => {
+    if (!selectedFile) {
+      console.error("ファイルが選択されていません")
+      return
+    }
+    const formData = new FormData()
+    formData.append("file", selectedFile)
+    try {
+      // ここでは python バックエンドのエンドポイント（例：/api/process）に送信する例です
+      const res = await fetch("/api/process", {
+        method: "POST",
+        body: formData,
+      })
+      if (res.ok) {
+        console.log("Pythonバックエンドへの送信成功")
+      } else {
+        console.error("Pythonバックエンドへの送信失敗")
+      }
+    } catch (error) {
+      console.error("保存中にエラーが発生", error)
+    }
   }
 
   return (
@@ -70,13 +116,39 @@ export default function ReceiptsPage() {
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
+                onClick={() => fileInputRef.current?.click()}
               >
                 <Upload className="h-8 w-8 mb-2 text-muted-foreground" />
-                <p className="text-sm text-muted-foreground">ドラッグ＆ドロップ、またはクリックしてアップロード</p>
+                <p className="text-sm text-muted-foreground">
+                  ドラッグ＆ドロップ、またはクリックしてアップロード
+                </p>
               </div>
+              {/* 隠しファイル入力 */}
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="hidden"
+                onChange={handleFileSelect}
+                accept="image/*"
+              />
             </CardContent>
           </Card>
         </div>
+
+        {/* 選択した画像のプレビューと保存ボタン */}
+        {previewUrl && (
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle>アップロードした画像のプレビュー</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col items-center">
+              <img src={previewUrl} alt="アップロード画像" className="max-w-full h-auto mb-4" />
+              <Button variant="outline" onClick={handleSave}>
+                画像を保存して処理を実行
+              </Button>
+            </CardContent>
+          </Card>
+        )}
 
         <Card>
           <CardHeader>
@@ -105,4 +177,3 @@ export default function ReceiptsPage() {
     </div>
   )
 }
-
