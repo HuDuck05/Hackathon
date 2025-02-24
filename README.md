@@ -73,27 +73,28 @@ command を押しながらクリックするとブラウザに飛べたら完了
 以下のコマンドを実行して、必要なパッケージをインストールしてください。
 
 ```sh
-pip install requests rapidfuzz openai
+pip install requests rapidfuzz openai python-dotenv
 ```
 
 ## 📌 使い方 (Usage)
 
 ### 1. API キーの設定
 
-このスクリプトは OpenAI API を使用するため、`OPENAI_API_KEY` を環境変数として設定するか、スクリプト内に直接記述する必要があります。
+このスクリプトは Azure OpenAI(OpenAI),Azure Computer Vision、GoogleMap を使用するため、　エンドポイントとAPIキー　を環境変数として設定するか、スクリプト内に直接記述する必要があります。
 
-#### 環境変数として設定する場合:
+#### .env 環境変数として設定する場合:
 
 ```sh
-export OPENAI_API_KEY="your_api_key_here"
-```
+#Azure Computer Vision用
+OCR_SUBSCRIPTION_KEY="XXXX"
+OCR_ENDPOINT="XXX.com"
 
-#### スクリプト内に直接記述する場合:
+# Azure OpenAI 用
+OPENAI_ENDPOINT="YYY.com"
+OPENAI_SUBSCRIPTION_KEY="YYYY"
 
-```python
-import openai
-
-openai.api_key = "your_api_key_here"
+#Google Map用
+GOOGLEMAP_API_KEY="ZZZZZ"
 ```
 
 ### 2. スクリプトの実行
@@ -103,5 +104,3 @@ openai.api_key = "your_api_key_here"
 ```sh
 python recommend.py
 ```
-
-TEST
