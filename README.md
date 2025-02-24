@@ -137,3 +137,9 @@ python recommend.py
 
 
 ## How to set up? (GoogleMap)
+## 🚀 インストール
+
+```sh
+npm install @react-google-maps/api
+```
+
