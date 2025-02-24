@@ -126,14 +126,9 @@ OPENAI_SUBSCRIPTION_KEY="YYYY"
 GOOGLEMAP_API_KEY="ZZZZZ"
 ```
 
-### 2. スクリプトの実行
-
-以下のコマンドを実行可能。
-
+## How to set up? (GoogleMap)
 ```sh
-python recommend.py
+npm install @react-google-maps/api
 ```
 
 
-
-## How to set up? (GoogleMap)
