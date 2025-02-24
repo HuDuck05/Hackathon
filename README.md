@@ -89,7 +89,47 @@ command を押しながらクリックするとブラウザに飛べたら完了
 npm install -D @tailwindcss/postcss
 ```
 
+## How to use Database?
 
+### Step 1
+
+### prismaパッケージのインストール
+
+```
+npm install prisma --save-dev
+```
+
+### Step 2
+
+### マイグレーションの実行
+
+以下のコマンドを実行、（新しくテーブル定義を追加、または変更した場合は変更内容を簡潔に書く）
+```
+npx prisma migrate <変更した内容>
+```
+
+### Step 3
+
+### prisma generateの実行
+#### What is it?
+
+(1)Prismaクライアントの生成  
+(2)TypeScriptの型情報の生成
+
+を行なっている。
+以下コマンドを実行
+```
+npx prisma generate
+```
+
+### Step 4
+
+### prisma studioの立ち上げ
+
+```
+npx prisma studio
+```
+localhostが立ち上げられ、DBにアクセスできれば完了
 
 ## How to set up? (Backend)
 
