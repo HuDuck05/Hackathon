@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Plus, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -18,15 +18,24 @@ interface Product {
 
 export default function AdminProductsPage() {
   const [searchTerm, setSearchTerm] = useState("")
+  const [products, setProducts] = useState<Product[]>([])
 
-  // This would typically come from an API call
-  const products: Product[] = [
-    { id: 1, name: "有機野菜セット", price: 1200, stock: 50, status: "在庫あり" },
-    { id: 2, name: "地元産フルーツミックス", price: 1600, stock: 30, status: "在庫あり" },
-    { id: 3, name: "手作りパン詰め合わせ", price: 800, stock: 0, status: "入荷待ち" },
-    { id: 4, name: "季節の魚介類セット", price: 2000, stock: 15, status: "在庫あり" },
-    { id: 5, name: "オーガニックジュース", price: 500, stock: 0, status: "在庫なし" },
-  ]
+  // Fetch products from API
+  const fetchProducts = async () => {
+    try {
+      const res = await fetch("/api/products")
+      if (!res.ok) throw new Error("Failed to fetch products")
+      const data = await res.json()
+      setProducts(data)
+    } catch (error) {
+      console.error("Error fetching products:", error)
+    }
+  }
+
+  // Fetch products when component mounts
+  useEffect(() => {
+    fetchProducts()
+  }, [])
 
   const filteredProducts = products.filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
 

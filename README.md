@@ -1,4 +1,25 @@
-# Hackathon
+# Hackathon・食品ロス削減プラットフォーム
+
+このプロジェクトは、**食品ロス削減を目的とした**  
+『廃棄される寸前の商品を消費者が見つけられる』プラットフォームウェブサイトのファイルです。
+
+## 🚀 利用方法
+
+### 1. 消費者として登録する場合  
+- 複数の機能を利用して商品を見つけられます：  
+  - 🗺 **マップ機能**：自分の周辺のお店を探せます。  
+  - ⭐ **おすすめ機能**：レシート（写真を撮る or アップロード）をもとに、システムが自動でおすすめ商品を表示します。  
+  - 📋 **一覧機能**：すべての商品を順番に閲覧できます。  
+- 気になる商品を選んで **予約** し、お店へ行って現地で支払いを行います。
+
+### 2. お店として登録する場合  
+- 廃棄寸前の商品を把握し、以下の情報を投稿します：  
+  - **住所**  
+  - **商品の写真**  
+  - **回収時間**  
+  - **価格**  
+- 予約が入るのを待ち、回収に来た消費者に **現地会計** で対応します。
+
 
 ## How to set up? (Frontend)
 
@@ -62,6 +83,14 @@ npm run dev
 立ち上げに成功すれば、localhost:3000 と表示されるので  
 command を押しながらクリックするとブラウザに飛べたら完了
 
+
+必要に応じて
+```
+npm install -D @tailwindcss/postcss
+```
+
+
+
 ## How to set up? (Backend)
 
 ## 🛠 動作確認
@@ -73,27 +102,28 @@ command を押しながらクリックするとブラウザに飛べたら完了
 以下のコマンドを実行して、必要なパッケージをインストールしてください。
 
 ```sh
-pip install requests rapidfuzz openai
+pip install requests rapidfuzz openai python-dotenv
 ```
 
 ## 📌 使い方 (Usage)
 
 ### 1. API キーの設定
 
-このスクリプトは OpenAI API を使用するため、`OPENAI_API_KEY` を環境変数として設定するか、スクリプト内に直接記述する必要があります。
+このスクリプトは Azure OpenAI(OpenAI),Azure Computer Vision、GoogleMap を使用するため、　エンドポイントとAPIキー　を環境変数として設定するか、スクリプト内に直接記述する必要があります。
 
-#### 環境変数として設定する場合:
+#### .env 環境変数として設定する場合:
 
 ```sh
-export OPENAI_API_KEY="your_api_key_here"
-```
+#Azure Computer Vision用
+OCR_SUBSCRIPTION_KEY="XXXX"
+OCR_ENDPOINT="XXX.com"
 
-#### スクリプト内に直接記述する場合:
+# Azure OpenAI 用
+OPENAI_ENDPOINT="YYY.com"
+OPENAI_SUBSCRIPTION_KEY="YYYY"
 
-```python
-import openai
-
-openai.api_key = "your_api_key_here"
+#Google Map用
+GOOGLEMAP_API_KEY="ZZZZZ"
 ```
 
 ### 2. スクリプトの実行
@@ -104,4 +134,6 @@ openai.api_key = "your_api_key_here"
 python recommend.py
 ```
 
-TEST
+
+
+## How to set up? (GoogleMap)

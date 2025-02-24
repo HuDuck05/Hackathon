@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react"
 import Link from "next/link"
-import { Leaf, Camera, TrendingDown, Users, Store } from "lucide-react"
+import { Leaf, Camera, TrendingDown, Users, Store, MapPin, Heart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -62,15 +62,14 @@ export default function Home() {
               <div>
                 <Badge className="mb-4 bg-green-100 text-green-800 hover:bg-green-100">地球にやさしい買い物を</Badge>
                 <h2 className="text-4xl font-bold mb-6 leading-tight">
-                  食品ロスを減らしながら、
+                食品ロスを減らす、<br />
                   <span className="bg-gradient-to-r from-green-600 to-emerald-500 text-transparent bg-clip-text">
-                    賢くお得に
+                  新しい
                   </span>
-                  買い物しよう
+                  買い物のカタチ！
                 </h2>
                 <p className="text-lg text-muted-foreground mb-8">
-                  レシートをスキャンして、あなたに最適なお買い物提案を受け取りましょう。
-                  地域の店舗と協力して、食品ロス削減に貢献します。
+                  毎年約600万トン出る食料廃棄。<br />「まだ食べられる食料を救いたい」という思いを繋ぐ場です。
                 </p>
                 <div className="flex gap-4">
                   <Button
@@ -98,21 +97,21 @@ export default function Home() {
         </section>
 
         <section ref={featuresRef} className="py-20 container">
-          <h2 className="text-3xl font-bold text-center mb-12">簡単3ステップで始められます</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">3つの便利な機能!</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                icon: <Camera className="h-8 w-8 text-orange-500" />,
+                icon: <Camera className="h-8 w-8 text-green-500" />,
                 title: "レシートをスキャン",
                 description: "個々に向けたおすすめ商品をご提案",
               },
               {
-                icon: <TrendingDown className="h-8 w-8 text-blue-500" />,
+                icon: <MapPin className="h-8 w-8 text-blue-500" />,
                 title: "近い + お得な商品を発見",
                 description: "マップ機能で様々なお店を見つけることが可能",
               },
               {
-                icon: <Leaf className="h-8 w-8 text-green-500" />,
+                icon: <Heart className="h-8 w-8 text-red-500" />,
                 title: "お気に入りのお店を保存",
                 description: "あなたの特別なお店がすぐわかるように",
               },

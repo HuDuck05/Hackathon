@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Navigation from "@/app/components/navigation"
+import { FormEvent } from 'react'
 
 export default function NewProductPage() {
   const router = useRouter()
@@ -21,10 +22,24 @@ export default function NewProductPage() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setIsLoading(true)
+    let payload: any = {};
+    const formData = new FormData(event.currentTarget)
+    for (var [key, value] of formData.entries()) { 
+      payload[key] = value
+    }
 
     // Here you would typically send the form data to your API
-    await new Promise((resolve) => setTimeout(resolve, 2000)) // Simulating API call
-
+    const res = await fetch('/api/products', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+  
+    if (!res.ok) {
+      throw new Error("Failsed to add product");
+    }
     setIsLoading(false)
     router.push("/admin/products")
   }
@@ -45,26 +60,26 @@ export default function NewProductPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">商品名</Label>
-                <Input id="name" required />
+                <Input id="name" name='name' required />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="description">商品説明</Label>
-                <Textarea id="description" required />
+                <Textarea id="description" name='description' required />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="price">価格</Label>
-                  <Input id="price" type="number" min="0" required />
+                  <Input id="price" name='price' type="number" min="0" required />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="stock">在庫数</Label>
-                  <Input id="stock" type="number" min="0" required />
+                  <Input id="stock" name="stock" type="number" min="0" required />
                 </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="status">ステータス</Label>
                 <Select required>
-                  <SelectTrigger id="status">
+                  <SelectTrigger id="status" name="status">
                     <SelectValue placeholder="ステータスを選択" />
                   </SelectTrigger>
                   <SelectContent>
@@ -74,7 +89,7 @@ export default function NewProductPage() {
                   </SelectContent>
                 </Select>
               </div>
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <Button type="submit" className="w-full" disabled={isLoading} >
                 {isLoading ? "登録中..." : "商品を登録"}
               </Button>
             </form>
