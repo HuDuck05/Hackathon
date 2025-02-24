@@ -105,7 +105,7 @@ npm install prisma --save-dev
 
 以下のコマンドを実行、（新しくテーブル定義を追加、または変更した場合は変更内容を簡潔に書く）
 ```
-npx prisma migrate <変更した内容>
+npx prisma migrate dev --name <変更した内容>
 ```
 
 ### Step 3
