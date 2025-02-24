@@ -133,3 +133,7 @@ GOOGLEMAP_API_KEY="ZZZZZ"
 ```sh
 python recommend.py
 ```
+
+
+
+## How to set up? (GoogleMap)
