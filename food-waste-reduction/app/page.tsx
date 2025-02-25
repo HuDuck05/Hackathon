@@ -26,28 +26,28 @@ export default function Home() {
     {
       id: 1,
       name: "有機野菜セット",
-      image: "/placeholder.svg?height=200&width=300",
+      image: "/image/vegetables.jpg?height=200&width=300",
       originalPrice: 1500,
       discountedPrice: 1200,
     },
     {
       id: 2,
       name: "地元産フルーツミックス",
-      image: "/placeholder.svg?height=200&width=300",
+      image: "/image/fruit.jpeg?height=200&width=300",
       originalPrice: 2000,
       discountedPrice: 1600,
     },
     {
       id: 3,
       name: "手作りパン詰め合わせ",
-      image: "/placeholder.svg?height=200&width=300",
+      image: "/image/top_1.jpg?height=200&width=300",
       originalPrice: 1000,
       discountedPrice: 800,
     },
     {
       id: 4,
       name: "季節の魚介類セット",
-      image: "/placeholder.svg?height=200&width=300",
+      image: "/image/fish.jpeg?height=200&width=300",
       originalPrice: 2500,
       discountedPrice: 2000,
     },
@@ -87,7 +87,7 @@ export default function Home() {
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-green-200 to-emerald-200 rounded-full blur-3xl opacity-20" />
                 <img
-                  src="/placeholder.svg?height=300&width=450"
+                  src="/image/top_2.jpg?height=300&width=450"
                   alt="食品ロス削減イメージ"
                   className="rounded-lg shadow-2xl relative z-10 w-full max-w-md mx-auto"
                 />
