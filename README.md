@@ -94,7 +94,7 @@ npm install -D @tailwindcss/postcss
 ### Step 0
 
 postgresqlのインストール
-ここでパスワードの設定　-1
+ここでパスワードの設定　(1)
 
 sql shell(Windows)でデータベース作成
 ```
@@ -103,10 +103,10 @@ psql -U postgres
 CREATE DATABASE mydatabase;
 ```
 
-mydatabase -2
+mydatabase (2)
 
 .env 
-DATABASE_URL="postgresql://postgres:<パスワード -1>@localhost:5432/<mydatabase -2>?schema=public"
+DATABASE_URL="postgresql://postgres:<パスワード (1)>@localhost:5432/<mydatabase (2)>?schema=public"
 
 ### Step 1
 
