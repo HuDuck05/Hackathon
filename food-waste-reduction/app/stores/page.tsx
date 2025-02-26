@@ -1,41 +1,18 @@
-"use client"
+// page.tsx
 
-import { useState } from "react"
-import { MapPin, Search, Phone, Clock } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+"use client";
+
+import { useState } from "react";
+import { MapPin, Search, Phone, Clock } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import NearbyStores from "./NearbyStores";
 
 export default function StoresPage() {
-  const [searchQuery, setSearchQuery] = useState("")
-
-  const stores = [
-    {
-      name: "エコフード マルシェ 渋谷店",
-      address: "東京都渋谷区渋谷1-1-1",
-      phone: "03-1234-5678",
-      hours: "9:00-22:00",
-      distance: "0.5km",
-      hasDiscount: true,
-    },
-    {
-      name: "エコフード マルシェ 新宿店",
-      address: "東京都新宿区新宿2-2-2",
-      phone: "03-2345-6789",
-      hours: "10:00-21:00",
-      distance: "1.2km",
-      hasDiscount: true,
-    },
-    {
-      name: "エコフード マルシェ 池袋店",
-      address: "東京都豊島区池袋3-3-3",
-      phone: "03-3456-7890",
-      hours: "9:00-23:00",
-      distance: "2.1km",
-      hasDiscount: false,
-    },
-  ]
+  const [searchQuery, setSearchQuery] = useState("");
+  const [stores, setStores] = useState([]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white py-12">
@@ -54,8 +31,10 @@ export default function StoresPage() {
           </div>
         </div>
 
+        <NearbyStores onUpdateStores={setStores} />
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {stores.map((store, i) => (
+          {stores.map((store: any, i: number) => (
             <Card key={i} className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
@@ -68,7 +47,7 @@ export default function StoresPage() {
                   <MapPin className="h-5 w-5 text-muted-foreground shrink-0 mt-1" />
                   <div>
                     <p>{store.address}</p>
-                    <p className="text-sm text-muted-foreground">約{store.distance}</p>
+                    <p className="text-sm text-muted-foreground">約{store.distance.toFixed(2)} km</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -88,6 +67,5 @@ export default function StoresPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-
