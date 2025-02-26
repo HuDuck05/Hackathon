@@ -22,29 +22,36 @@ export async function POST(req: NextRequest) {
       const filePath = path.join(dirPath, file);
       const fileData = fs.readFileSync(filePath, 'utf-8');
       const scanData = JSON.parse(fileData);
-
+    
       if (!scanData || typeof scanData !== 'object') {
         console.warn(`無効な JSON データをスキップ: ${file}`);
         continue;
       }
-
-      // **前の ID を取得**
-      const lastItem = await prisma.item.findFirst({
-        orderBy: { id: 'desc' },
+    
+      // ファイル名（拡張子除く）を id として利用
+      const jsonId = path.basename(file, '.json');
+    
+      // すでに同じ id (jsonId) のデータが存在するか確認
+      const existingItem = await prisma.item.findUnique({
+        where: { id: jsonId },
       });
-
-      const nextId = lastItem ? lastItem.id + 1 : 1; // ID を前回の +1 にする
-
-      // JSONデータを `name` フィールドに保存
+    
+      if (existingItem) {
+        console.warn(`ID "${jsonId}" が既に存在するため、ファイル "${file}" はスキップします。`);
+        continue;
+      }
+    
+      // JSONデータを `name` フィールドに保存（id は jsonId を利用）
       const savedItem = await prisma.item.create({
         data: {
-          id: nextId, // 手動で ID を設定
+          id: jsonId, // 数値ではなく JSON のファイル名を ID として設定
           name: JSON.stringify(scanData),
         },
       });
-
+    
       savedItems.push(savedItem);
     }
+    
 
 
     // Item テーブルのデータを取得
@@ -78,7 +85,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({
-      message: 'データのインポートが完了しました。Python スクリプトが実行されました。',
+      message: '商品がパーソナライズされました',
       savedItems,
     }, { status: 200 });
 

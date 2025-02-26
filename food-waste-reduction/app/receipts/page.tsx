@@ -194,12 +194,12 @@ export default function ReceiptsPage() {
 
         {/* スキャン履歴 */}
         <button
-        onClick={handleSaveToDatabase}
-        className="px-4 py-2 bg-green-600 text-white rounded-md shadow hover:bg-green-700"
-        disabled={loading}
-      >
-        {loading ? "保存中..." : "JSONをDBに保存"}
-      </button>
+          onClick={handleSaveToDatabase}
+          className="mb-4 px-4 py-2 bg-green-600 text-white rounded-md shadow hover:bg-green-700"
+          disabled={loading}
+        >
+          {loading ? "保存中..." : "保存してパーソナライズ"}
+        </button>
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
