@@ -10,14 +10,17 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Navigation from "@/app/components/navigation"
-import { FormEvent } from 'react'
+import { DayPicker } from "react-day-picker"
+import "react-day-picker/dist/style.css" 
 
 export default function NewProductPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>()
+  const [startTime, setStartTime] = useState<string>("")
+  const [endTime, setEndTime] = useState<string>("")
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -28,7 +31,22 @@ export default function NewProductPage() {
       payload[key] = value
     }
 
-    // Here you would typically send the form data to your API
+    if (selectedDate && startTime && endTime) {
+      const dateString = selectedDate.toISOString().split("T")[0]; // YYYY-MM-DD
+      const startDateTime = new Date(`${dateString}T${startTime}:00Z`);
+      const endDateTime = new Date(`${dateString}T${endTime}:00Z`);
+  
+      // Check if the start time is before the end time
+      if (startDateTime >= endDateTime) {
+        alert("終了時間は開始時間より遅く設定してください。");
+        setIsLoading(false);
+        return;
+      }
+  
+    payload["start_time"] = new Date(`${dateString}T${startTime}:00Z`).toISOString()
+    payload["end_time"] = new Date(`${dateString}T${endTime}:00Z`).toISOString()
+    }
+
     const res = await fetch('/api/products', {
       method: 'POST',
       headers: {
@@ -38,7 +56,8 @@ export default function NewProductPage() {
     })
   
     if (!res.ok) {
-      throw new Error("Failsed to add product");
+      console.log(res);
+      throw new Error("Failed to add product");
     }
     setIsLoading(false)
     router.push("/admin/products")
@@ -68,27 +87,47 @@ export default function NewProductPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="price">価格</Label>
+                  <Label htmlFor="price">定価</Label>
                   <Input id="price" name='price' type="number" min="0" required />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="stock">在庫数</Label>
-                  <Input id="stock" name="stock" type="number" min="0" required />
+                  <Label htmlFor="discounted_price">割引価格</Label>
+                  <Input id="discounted_price" name="discounted_price" type="number" min="0" required />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="status">ステータス</Label>
-                <Select required>
-                  <SelectTrigger id="status" name="status">
-                    <SelectValue placeholder="ステータスを選択" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="在庫あり">在庫あり</SelectItem>
-                    <SelectItem value="在庫なし">在庫なし</SelectItem>
-                    <SelectItem value="入荷待ち">入荷待ち</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Label htmlFor="date">受取可能時間</Label>
+                <DayPicker
+                  mode="single"
+                  selected={selectedDate}
+                  onSelect={setSelectedDate}
+                />
               </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="start_time">開始時間</Label>
+                  <Input 
+                    id="start_time" 
+                    name="start_time" 
+                    type="time" 
+                    value={startTime} 
+                    onChange={(e) => setStartTime(e.target.value)}
+                    required 
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="end_time">終了時間</Label>
+                  <Input 
+                    id="end_time" 
+                    name="end_time" 
+                    type="time" 
+                    value={endTime} 
+                    onChange={(e) => setEndTime(e.target.value)}
+                    required 
+                  />
+                </div>
+              </div>
+
               <Button type="submit" className="w-full" disabled={isLoading} >
                 {isLoading ? "登録中..." : "商品を登録"}
               </Button>

@@ -20,10 +20,11 @@ model Item {
 }
 
 model Product {
-  id     Int @unique @default(autoincrement()) @id
-  name   String
-  price  Int
-  stock  Int
-  status String  @default("在庫あり") // "在庫あり", "在庫なし", "入荷待ち" のいずれか
-  createdAt DateTime @default(now())
+  id               Int      @id @default(autoincrement())
+  name             String
+  price            Int
+  discounted_price Int      @default(0)   // or any appropriate default value
+  start_time       DateTime @default(now())
+  end_time         DateTime @default(now())// or another default value
 }
+

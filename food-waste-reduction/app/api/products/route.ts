@@ -2,13 +2,7 @@ import { NextResponse } from "next/server";
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
-// 商品の型定義
-interface Product {
-  name: string;
-  price: number;
-  stock: number;
-  status: "在庫あり" | "在庫なし" | "入荷待ち";
-}
+
 // 商品一覧取得API (GET)
 export async function GET() {
   try {
@@ -22,23 +16,35 @@ export async function GET() {
 
 // 商品登録API（POST）
 export async function POST(req: Request) {
-  const body = await req.json()
-  const { name, price, stock, status } = body
-  console.log(body)
   try {
-    const newProduct = await prisma.product.create({
-        data: {
-          name,
-          price: Number(price),
-          stock: Number(stock),
-          status
-        },
-    })
+    const body = await req.json()
+    const { name, price, discounted_price, start_time, end_time } = body
+    
+    // Convert price and discounted_price to numbers
+    const priceNumber = Number(price);
+    const discountedPriceNumber = Number(discounted_price);
+
+    // Convert start_time and end_time to Date objects
+    const startTime = new Date(start_time);
+    const endTime = new Date(end_time);
+    
     // バリデーション
-    if (!newProduct.name || typeof newProduct.price !== "number" || typeof newProduct.stock !== "number") {
+    if (!name || typeof priceNumber !== "number" || typeof discountedPriceNumber !== "number") {
+      console.error("Invalid data:", { name, priceNumber, discountedPriceNumber, startTime, endTime });
       return NextResponse.json({ message: "無効なデータです" }, { status: 400 });
     }
+
+    const newProduct = await prisma.product.create({
+      data: {
+        name,
+        price: priceNumber,
+        discounted_price: discountedPriceNumber,
+        start_time: startTime,
+        end_time: endTime,
+      },
+    });
     return NextResponse.json({ message: "商品を登録しました", product: newProduct }, { status: 201 });
+
   } catch (error) {
     console.log(error)
     return NextResponse.json({ message: "サーバーエラー", error }, { status: 500 });
