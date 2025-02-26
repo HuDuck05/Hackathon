@@ -33,13 +33,13 @@ export default function AdminPage() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Store className="h-5 w-5" />
-                    店舗管理
+                    店舗情報
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="mb-4">店舗情報の管理や在庫状況の確認を行います。</p>
+                  <p className="mb-4">店舗情報の管理や変更を行います。</p>
                   <Button className="w-full" asChild>
-                    <Link href="/admin/stores">店舗一覧を見る</Link>
+                    <Link href="/admin/stores">店舗情報を見る</Link>
                   </Button>
                 </CardContent>
               </Card>

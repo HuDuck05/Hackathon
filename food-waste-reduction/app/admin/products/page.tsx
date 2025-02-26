@@ -9,11 +9,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import Navigation from "@/app/components/navigation"
 
 interface Product {
-  id: number
-  name: string
-  price: number
-  stock: number
-  status: "在庫あり" | "在庫なし" | "入荷待ち"
+  id: number;
+  name: string;
+  price: number;
+  discounted_price: number;
+  start_time: string;
+  end_time: string;
 }
 
 export default function AdminProductsPage() {
@@ -37,7 +38,9 @@ export default function AdminProductsPage() {
     fetchProducts()
   }, [])
 
-  const filteredProducts = products.filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   return (
     <>
@@ -67,8 +70,8 @@ export default function AdminProductsPage() {
               <TableHead>ID</TableHead>
               <TableHead>商品名</TableHead>
               <TableHead>価格</TableHead>
-              <TableHead>在庫数</TableHead>
-              <TableHead>ステータス</TableHead>
+              <TableHead>割引価格</TableHead>
+              <TableHead>受取可能時間</TableHead>
               <TableHead>アクション</TableHead>
             </TableRow>
           </TableHeader>
@@ -78,8 +81,24 @@ export default function AdminProductsPage() {
                 <TableCell>{product.id}</TableCell>
                 <TableCell>{product.name}</TableCell>
                 <TableCell>¥{product.price.toLocaleString()}</TableCell>
-                <TableCell>{product.stock}</TableCell>
-                <TableCell>{product.status}</TableCell>
+                <TableCell>{product.discounted_price}</TableCell>
+                <TableCell>
+                  {new Date(product.start_time).toLocaleString("ja-JP", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }).replace(",", "").replace(" ", "-")}
+                  ~
+                  {new Date(product.end_time).toLocaleString("ja-JP", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }).replace(",", "").replace(" ", "-")}
+                </TableCell>
                 <TableCell>
                   <Button variant="outline" size="sm" asChild>
                     <Link href={`/admin/products/${product.id}`}>編集</Link>
