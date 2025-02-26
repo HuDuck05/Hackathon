@@ -63,7 +63,7 @@ export default function ReceiptsPage() {
     const formData = new FormData()
     formData.append("file", selectedFile)
     try {
-      const res = await fetch("/receipts/api/process", {
+      const res = await fetch("/receipts/api", {
         method: "POST",
         body: formData,
       })
@@ -83,6 +83,27 @@ export default function ReceiptsPage() {
     setIsLoading(false) // ローディング終了
   }
   
+  const [loading, setLoading] = useState(false);
+
+  // APIを呼び出してJSONをDBに保存
+  const handleSaveToDatabase = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("api/import-json", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const result = await response.json();
+      alert(result.message);
+    } catch (error) {
+      console.error("エラー:", error);
+      alert("データのインポートに失敗しました");
+    }
+    setLoading(false);
+  };
+
+
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white py-12">
@@ -172,6 +193,13 @@ export default function ReceiptsPage() {
         )}
 
         {/* スキャン履歴 */}
+        <button
+        onClick={handleSaveToDatabase}
+        className="px-4 py-2 bg-green-600 text-white rounded-md shadow hover:bg-green-700"
+        disabled={loading}
+      >
+        {loading ? "保存中..." : "JSONをDBに保存"}
+      </button>
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
