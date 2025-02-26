@@ -122,25 +122,25 @@ if __name__ == "__main__":
         ocr_result_text = perform_ocr(endpoint_ocr, subscription_key_ocr, image_path)
         ocr_items = extract_items_from_ocr(initialize_openai_client(endpoint, subscription_key), deployment, ocr_result_text)
 
-        sell_items = [
-            {"id": 1, "name": "りんご"},
-            {"id": 2, "name": "カフェラテ"},
-            {"id": 3, "name": "バゲット"},
-            {"id": 4, "name": "抹茶"},
-            {"id": 5, "name": "グラタン"},
-            {"id": 6, "name": "パエリア"},
-            {"id": 7, "name": "オレンジジュース"},
-            {"id": 8, "name": "寿司"},
-            {"id": 9, "name": "サーモン"},
-            {"id": 10, "name": "トマト"}
-        ]
+        # sell_items = [
+        #     {"id": 1, "name": "りんご"},
+        #     {"id": 2, "name": "カフェラテ"},
+        #     {"id": 3, "name": "バゲット"},
+        #     {"id": 4, "name": "抹茶"},
+        #     {"id": 5, "name": "グラタン"},
+        #     {"id": 6, "name": "パエリア"},
+        #     {"id": 7, "name": "オレンジジュース"},
+        #     {"id": 8, "name": "寿司"},
+        #     {"id": 9, "name": "サーモン"},
+        #     {"id": 10, "name": "トマト"}
+        # ]
 
-        sorted_result = sort_items_by_similarity(sell_items, ocr_items)
+        # sorted_result = sort_items_by_similarity(sell_items, ocr_items)
 
         # まとめて JSON を出力
         result = {
             "ocr_result": ocr_items,
-            "sorted_result": sorted_result
+            #"sorted_result": sorted_result
         }
         print(json.dumps(result, indent=2, ensure_ascii=False))
     except Exception as e:
