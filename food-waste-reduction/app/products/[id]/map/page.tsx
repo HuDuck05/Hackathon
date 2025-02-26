@@ -46,9 +46,19 @@ export default function MapPage() {
               <h3 className="font-bold mb-2">受け取り可能時間</h3>
               <p className="text-muted-foreground">2024年2月23日 10:00 - 20:00</p>
             </div>
-            <Button className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600" size="lg">
-              <Navigation className="mr-2 h-4 w-4" />
-              ナビゲーションを開始
+            <Button
+              asChild
+              className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600"
+              size="lg"
+            >
+              <a
+                href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Navigation className="mr-2 h-4 w-4" />
+                ナビゲーションを開始
+              </a>
             </Button>
             <p className="text-sm text-center text-muted-foreground">
               ナビゲーションを開始すると、お使いの端末の地図アプリが起動します。
