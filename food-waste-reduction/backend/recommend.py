@@ -92,17 +92,6 @@ def extract_items_from_ocr(client, deployment, ocr_text):
     result_text = completion.choices[0].message.content.strip()
     return json.loads(result_text)["items"]
 
-def calculate_similarity(item_name, ocr_list):
-    """商品名の類似度を計算"""
-    return max([fuzz.partial_ratio(item_name, ocr) for ocr in ocr_list])
-
-def sort_items_by_similarity(sell_items, ocr_items):
-    """OCR で取得した商品名と売られている商品の類似度を計算し、並び替え"""
-    for item in sell_items:
-        item["similarity"] = calculate_similarity(item["name"], ocr_items)
-    sorted_items = sorted(sell_items, key=lambda x: x["similarity"], reverse=True)
-    return [{"id": item["id"], "name": item["name"]} for item in sorted_items]
-
 if __name__ == "__main__":
     # Azure の情報（実際の値に置き換えてください）
     subscription_key_ocr = OCR_SUBSCRIPTION_KEY
@@ -113,7 +102,7 @@ if __name__ == "__main__":
 
     # コマンドライン引数から画像パスを取得（TS 側でファイル名を決定して渡す）
     if len(sys.argv) < 2:
-        print(json.dumps({"error": "Usage: python test.py <image_path>"}))
+        print(json.dumps({"error": "Usage: python recommend.py <image_path>"}))
         sys.exit(1)
 
     image_path = sys.argv[1]
@@ -122,25 +111,9 @@ if __name__ == "__main__":
         ocr_result_text = perform_ocr(endpoint_ocr, subscription_key_ocr, image_path)
         ocr_items = extract_items_from_ocr(initialize_openai_client(endpoint, subscription_key), deployment, ocr_result_text)
 
-        # sell_items = [
-        #     {"id": 1, "name": "りんご"},
-        #     {"id": 2, "name": "カフェラテ"},
-        #     {"id": 3, "name": "バゲット"},
-        #     {"id": 4, "name": "抹茶"},
-        #     {"id": 5, "name": "グラタン"},
-        #     {"id": 6, "name": "パエリア"},
-        #     {"id": 7, "name": "オレンジジュース"},
-        #     {"id": 8, "name": "寿司"},
-        #     {"id": 9, "name": "サーモン"},
-        #     {"id": 10, "name": "トマト"}
-        # ]
-
-        # sorted_result = sort_items_by_similarity(sell_items, ocr_items)
-
         # まとめて JSON を出力
         result = {
             "ocr_result": ocr_items,
-            #"sorted_result": sorted_result
         }
         print(json.dumps(result, indent=2, ensure_ascii=False))
     except Exception as e:
